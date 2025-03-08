@@ -3,7 +3,9 @@ import requests
 import asyncio
 from googletrans import Translator
 
-bot = telebot.TeleBot("7843469918:AAEk-YXpK59PXdlo--9vMnZGsiT7HyYAInk")  # Tokeningizni kiriting
+TOKEN = "Token" #Tokeningizni kiriting
+
+bot = telebot.TeleBot(TOKEN)
 
 async def translate_text(advice):
     translator = Translator()
