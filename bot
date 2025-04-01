@@ -1,0 +1,35 @@
+import qrcode
+import io
+import logging
+from aiogram import Bot, Dispatcher, types
+from aiogram.types import Message
+from aiogram.utils import executor
+
+# Bot tokeningizni shu yerga kiriting
+TOKEN = "7755603456:AAHEMbxPsHFF7G8MScUnVzXS2s0ep82kdc8"
+
+# Bot va dispatcher yaratish
+bot = Bot(token=TOKEN)
+dp = Dispatcher(bot)
+
+# Loglarni yoqish
+logging.basicConfig(level=logging.INFO)
+
+@dp.message_handler(commands=['start'])
+async def start_command(message: Message):
+    await message.answer("Assalomu alaykum! Menga havola yuboring, men unga QR kod yaratib beraman.")
+
+@dp.message_handler()
+async def generate_qr(message: Message):
+    text = message.text.strip()
+
+    # QR kod yaratish
+    qr = qrcode.make(text)
+    bio = io.BytesIO()
+    qr.save(bio, format="PNG")
+    bio.seek(0)
+
+    await message.reply_photo(photo=bio, caption="Mana sizning QR kodingiz!")
+
+if __name__ == "__main__":
+    executor.start_polling(dp, skip_updates=True)
